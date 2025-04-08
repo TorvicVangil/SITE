@@ -100,8 +100,8 @@ function listarArquivosHolerite(matricula) {
     const zipEntries = zip.getEntries();
 
     const arquivosUsuario = zipEntries
-        .filter(entry => entry.entryName.startsWith(`${matricula}/`) && !entry.isDirectory)
-        .map(entry => entry.entryName.replace(`${matricula}/`, ""));
+        .filter(entry => entry.entryName.startsWith(${matricula}/) && !entry.isDirectory)
+        .map(entry => entry.entryName.replace(${matricula}/, ""));
 
     return arquivosUsuario;
 }
@@ -116,14 +116,14 @@ app.get("/download", (req, res) => {
 
     const zip = new AdmZip(ZIP_PATH);
     const arquivoSeguro = path.basename(arquivo);
-    const fileEntry = zip.getEntry(`${matricula}/${arquivoSeguro}`);
+    const fileEntry = zip.getEntry(${matricula}/${arquivoSeguro});
 
     if (!fileEntry) {
         return res.status(404).json({ error: "Arquivo não encontrado para este usuário" });
     }
 
     const fileBuffer = zip.readFile(fileEntry);
-    res.setHeader("Content-Disposition", `attachment; filename=${arquivoSeguro}`);
+    res.setHeader("Content-Disposition", attachment; filename=${arquivoSeguro});
     res.send(fileBuffer);
 });
 
@@ -136,5 +136,5 @@ app.use((err, req, res, next) => {
 // Inicializar servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
+    console.log(Servidor rodando na porta ${PORT});
 });
