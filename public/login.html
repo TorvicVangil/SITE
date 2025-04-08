@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Loyola Alimentos</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="image-side">
+      <img src="https://loyolaalimentos.com.br/wp-content/uploads/2024/11/Sala-de-Classificacao-1.png" alt="Funcionários da Loyola" />
+    </div>
+    <div class="form-side">
+      <h2>ACESSE SUA CONTA</h2>
+      <form id="login-form">
+        <input type="text" name="cpf" placeholder="CPF" required />
+        <input type="password" name="senha" placeholder="Senha" required />
+        <button type="submit">Continuar</button>
+        <p id="erro" class="erro"></p>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">
+      <img src="https://loyolaalimentos.com.br/wp-content/uploads/2024/11/Group-165-2.png" alt="Loyola Alimentos" />
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('login-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const cpf = e.target.cpf.value;
+      const senha = e.target.senha.value;
+
+      try {
+        const res = await fetch('/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ matricula: cpf, senha })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          localStorage.setItem('matricula', cpf);
+          window.location.href = 'painel.html';
+        } else {
+          document.getElementById('erro').textContent = data.error || 'Erro desconhecido';
+        }
+      } catch (err) {
+        console.error('Erro na requisição:', err);
+        document.getElementById('erro').textContent = 'Erro ao conectar com o servidor.';
+      }
+    });
+  </script>
+</body>
+</html>
